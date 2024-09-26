@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="heading"></h1>
+    <h2 id="heading2"></h2>
+    <h2 id="heading2"></h2>
+    <h2 id="heading2"></h2>
+    <p id="paragraph"></p>
+
+    <button id="button">button</button>
+
+    <script>
+        //1. DOM: HTML코드를 트리구조 형태로 표현하고, 이를 통해 자바스크립트가 요소나 속성에 접근하고 조작할 수 있도록 하는 프로그래밍 인터페이스
+            // 자바스크립트는 콘텐츠, 속성, 스타일 등을 변경(접근 및 조작)할수 있음
+            // 텍스트 콘텐츠 변경 예시
+            const heading = document.getElementById("heading");
+            heading.textcontent = 'New Heading Text';
+
+        // 2-1. getElementById -> id 이름을 기준으로 요소 선택(단일요소)(값없을경우 null)
+            const paragraph = document.getElementById("paragraph");
+        
+        // 2-2. querySelector -> CSS선택자를 사용해서 첫번때 일치하는 요소를 반환하는 메서드(단일요소)(값없을경우, 빈 HTMLCollection)
+            const paragraph2 = document.querySelector('.paragraph')
+            const paragraph3 = document.querySelector('#paragraph')
+        
+        // 2-3. getElementByClassName -> class 이름을 기준으로 요소 선택(다중요소) (값없을경우 null)
+            const heading2 = document.getElementsByClassName("heading2")
+        
+        // 3. addEventListener 버튼 클릭시 텍스트 출력
+            const button = document.getElementById("button");
+            button.addEventListener("click", () => {
+                console.log("Button clicked!");
+            });
+
+        /* 4. BOM;Browser Object Model 웹브라우저에서 제공하는 객체 모델.웹 애플리케이션에서 브라우저와의 상호작용을 보다 효과적으로 관리 
+            ▶︎ window 객체의 주요 기능
+            1. 전역 객체: 자바스크립트의 전역 객체, 모든 전역변수와 함수는 `window`객체의 속성으로 존재
+            2. 타이머 기능: `setTimeout()`, `setInterval()` 메서드 사용
+            3. 브라우저 창 및 탭 제어: `window.open()` 메서드 사용
+            4. 알림 및 확인 대화 상자: `alert()`, `confirm()`, `prompt()` 메서드 사용
+            5. 브라우저 크기 및 위치정보: `window.innerWidth`, `window.innerHeight` 사용 */
+            window.location.href = "http://naver.com";
+        
+        // 5. 
+            window.history; // 사용자의 브라우징 히스토리를 기록하고 있는 배열
+            window.history.back(); // 뒤로가기
+            window.hitory.forward(); // 앞으로가기
+        
+        // 6. CSSOM: CSS스타일 규칙(자바스크립트를 통해서 스타일 요소를 지정 할 수 있게 해줌)
+            button.style.backgroundColor = "yellow";
+        
+        /* 7. Reflow 와 Repaint
+            ▶︎ Reflow : DOM요소의 레이아웃(구조, 크기, 위치)이 변경, 성능에 큰 영향을 미칠수 있음
+            ▶︎ Repaint : DOM요소의 시각적 스타일(색상, 배경색 등)이 변경될 때 발생, 레이아웃 변경되지 않음
+            ▶︎ DOM조작을 최소화 시키는 방법 : Document Fragment 사용 */
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i< 1000; i++){
+                const newDiv = document.createElement('div');
+                newDiv.textContent = `Item ${i}`;
+                fragment.appendChild(newDiv);
+            }
+
+            document.body.appendChild(fragment);
+
+        /* 8. JavaScript의 실행 맥락
+            ▶︎ 실행 맥락 : 코드가 실행되는 환경을 의미. 코드가 실행될 때 생성. 변수, 함수, 객체등의 유효범위와 관련된 정보를 포함
+            ▶︎ 전역 실행 맥락 : 자바스크립트 코드가 처음 실행될 때 생성되는 기본 실행 맥락 */
+        
+        /* 9. 콜 스택: 함수 호출을 관리하는 데이터 구조. LIFO(후입선출)방식으로 작동하여 가장 최근에 호출된 함수가 가장 먼저 실행됨
+                (작동방식 : 함수 호출 -> 함수 실행 -> 함수 종료 -> 다음 함수 실행) */
+
+            function firstFunction() {  // 2) 실행(실행 맥락 추가)  6) 실행(실행 맥락 추가)
+                console.log("First function is called.");   
+                secondFunction();
+                console.log("First function is finished."); // 7) 함수 종료 - 콜스택에서 제거 
+            }
+
+            function secondFunction() {     // 4) 실행 (실행 맥락 추가)
+                console.log("Second function is called.");
+                thirdFunction();
+                console.log("Second function is finished.");    // 5) 함수 종료 - 콜스택에서 제거
+            }
+            
+            function thirdFunction() {      
+                console.log("Third function is called.");   // 3) 함수 종료 - 콜스택에서 제거
+            }
+
+            firstFunction();    // 1) 함수 호출
+
+        // 10. 이벤트 루프: 자바스크립트이 비동기 작업을 처리하는 중요한 매커니즘, 콜스택과 태스크 큐를 통해 비동기 작업의 실행 순서 관리
+            console.log("Start");   // 1) 콜스택추가 ->실행
+
+            setTimeout(() => {      // 2) 호출
+                console.log("Timeout1");    // 3) 콜백함수 웹API에 등록 -> 콜스택 제거 -> 태스크 큐에 대기  9) 대기 콜백 함수 실행
+            }, 1000);
+
+            setTimeout(() => {      // 4. 호출
+                console.log("Timeout2");    // 5) 콜백함수 웹 API에 등록 -> 콜스택 제거 -> 태스크 큐에 대기  8) 대기 콜백 함수 실행
+            },0);
+
+            console.log("End"); // 6) 콜스택 추가 -> 실행   7) 콜 스택 비어 있는지 확인
+            
+    </script>
+</body>
+</html>
