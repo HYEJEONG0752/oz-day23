@@ -19,7 +19,7 @@
             // 자바스크립트는 콘텐츠, 속성, 스타일 등을 변경(접근 및 조작)할수 있음
             // 텍스트 콘텐츠 변경 예시
             const heading = document.getElementById("heading");
-            heading.textcontent = 'New Heading Text';
+            heading.textContent = 'New Heading Text';
 
         // 2-1. getElementById -> id 이름을 기준으로 요소 선택(단일요소)(값없을경우 null)
             const paragraph = document.getElementById("paragraph");
@@ -29,7 +29,7 @@
             const paragraph3 = document.querySelector('#paragraph')
         
         // 2-3. getElementByClassName -> class 이름을 기준으로 요소 선택(다중요소) (값없을경우 null)
-            const heading2 = document.getElementsByClassName("heading2")
+            const heading2 = document.getElementByClassName("heading2")
         
         // 3. addEventListener 버튼 클릭시 텍스트 출력
             const button = document.getElementById("button");
@@ -49,7 +49,7 @@
         // 5. 
             window.history; // 사용자의 브라우징 히스토리를 기록하고 있는 배열
             window.history.back(); // 뒤로가기
-            window.hitory.forward(); // 앞으로가기
+            window.history.forward(); // 앞으로가기
         
         // 6. CSSOM: CSS스타일 규칙(자바스크립트를 통해서 스타일 요소를 지정 할 수 있게 해줌)
             button.style.backgroundColor = "yellow";
